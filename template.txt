@@ -1,0 +1,8 @@
+Hi $first_name $last_name,
+
+Congratulations $first_name! You have been selected to receive: $prize (a valud of $$$dolars)
+
+We'll ship it to $city right away.
+
+Warm regards,
+The Prize Team

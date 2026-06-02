@@ -1,0 +1,25 @@
+{
+  "recipients": [
+    {
+      "first_name": "Alice",
+      "last_name": "Nguyen",
+      "prize": "a coffee maker",
+      "dolars": "49",
+      "city": "Boston"
+    },
+    {
+      "first_name": "Bob",
+      "last_name": "Martinez",
+      "prize": "a bluetooth speaker",
+      "dolars": "29",
+      "city": "Denver"
+    },
+    {
+      "first_name": "Chen",
+      "last_name": "Wei",
+      "prize": "a gift card",
+      "dolars": "100",
+      "city": "Seattle"
+    }
+  ]
+}

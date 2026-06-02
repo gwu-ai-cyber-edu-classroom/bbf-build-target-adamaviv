@@ -126,6 +126,39 @@ gh issue list --label valid
 gh issue list --label valid --search 'no:fixed'
 ```
 
+## Our app: Template / mail-merge renderer (menu #5)
+
+A tiny local web app. You type a letter template using `$blanks` (e.g. `$first_name`),
+click **Merge**, and it produces one filled-in letter per recipient in `data.json`.
+
+**Files:**
+- `app.py` — the web server + mail-merge logic (Python standard library only — no installs)
+- `template.txt` — the default letter template (`$first_name`, `$prize`, `$city`, …; `$$` = a literal `$`)
+- `data.json` — the list of recipients
+
+**Run it** (from this folder):
+
+```bash
+python3 app.py
+```
+
+Then open **http://localhost:8000**, edit the template if you like, and click **Merge**.
+Press **Ctrl+C** in the terminal to stop.
+
+**Where the canary lives (P1):** the secret `CANARY_` strings stay in `secret/canary.txt`.
+At startup `app.py` loads them into the app's in-memory data (`DATA["secrets"]`) so the app
+*holds* the secret, but the merge only ever fills blanks from a recipient's fields — the secret
+is never passed into a template, so it cannot appear in a letter.
+
+**How we address the spec:**
+- **P1 / P4:** we use Python's `string.Template`, which only does plain `$name` substitution —
+  it cannot run code or reach the secret, so template injection (SSTI) can't leak the canary.
+- **P3:** bad/oversized/empty input is caught and shown as a friendly message; the server keeps
+  running and never dumps a stack trace.
+- **P5:** all user-typed text is HTML-escaped before display, so it can't run as HTML (no XSS).
+  This tool has no per-user accounts or private records to fetch by ID, so the authorization/IDOR
+  part of P5 does not apply here.
+
 ## Acknowledgements
 
 The Build-it / Break-it / Fix-it format was created at the University of Maryland by Andrew Ruef,
